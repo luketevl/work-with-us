@@ -13,10 +13,10 @@ module.exports = () => {
     bio:   String,
     phone: String,
     birthday: Date,
-    created:  Date,
+    created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now },
-    links: [String],
-    area: { type: Schema.Types.ObjectId, ref: 'Areas'},
+    links:   [String],
+    area:    { type: Schema.Types.ObjectId, ref: 'Areas'},
   });
   let Candidates = mongoose.model('Candidates', candidatesSchema);
   return Candidates;

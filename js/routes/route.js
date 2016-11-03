@@ -2,6 +2,7 @@
 
 const candidatesCtrl        = require('../controllers/candidatesController')();
 const Candidates            = require('../models/candidates')();
+const Areas                 = require('../models/areas')();
 const path                  = require('path');
 const multiparty            = require('connect-multiparty');
 const multipartyMiddleware  = multiparty();
@@ -42,7 +43,7 @@ module.exports = (app) => {
         throw err;
       }
       console.log('Candidates deleted');
-      res.status(202).json({sucess: true});
+      res.status(202).json({success: true});
 
     });
   });
@@ -74,7 +75,7 @@ module.exports = (app) => {
         img: file_path
       };
       console.log('Candidates edited');
-      res.status(202).json({sucess: true, todo: result_candidate});
+      res.status(202).json({success: true, todo: result_candidate});
 
     });
   });
@@ -82,24 +83,19 @@ module.exports = (app) => {
   // ROUTE to API
   app.post('/api/v1/candidates', multipartyMiddleware,(req, res) => {
     let data = req.body;
-    let {name, checked, _id} = data;
     let file;
     let result_candidate;
     if(req.files){
       file = req.files.file;
     }
-    data = {
-      name,
-      checked
-    }
-    let todo = new Candidates(data);
-    todo.save().then((result, err) =>{
+    let candidates = new Candidates(data);
+    candidates.save().then((result, err) =>{
       if(err){
         res.status(500).json(err);
         throw err;
       }
       if(file){
-        let result_upload = candidatesCtrl.upload(req, todo);
+        let result_upload = candidatesCtrl.upload(req, candidates);
         if(result){
           var file_path = result.target_path;
         }
@@ -107,9 +103,61 @@ module.exports = (app) => {
       result_candidate = {
         _id : result._id,
         name: result.name,
-        img: file_path
+        file_path
       };
-      res.status(202).json({success: true, todo: result_candidate});
+      res.status(202).json({success: true, candidates: result_candidate});
     });
   });
+
+
+app.post('/api/v1/areas', (req, res) => {
+  let data = req.body;
+  let areas = new Areas(data);
+  areas.save().then((result, err) =>{
+    if(err){
+      res.status(500).json(err);
+      throw err;
+    }
+    console.log('Area created');
+    res.status(202).json({success: true, areas: result});
+  });
+});
+
+app.put('/api/v1/areas' , (req, res) => {
+  let data = req.body;
+
+  Areas.findByIdAndUpdate(data._id, data.name , (err, areas) => {
+    if(err){
+      res.status(500).json(err);
+      throw err;
+    }
+    console.log('Area edited');
+    res.status(202).json({success: true, areas})
+  });
+});
+
+app.delete('/api/v1/areas/:_id', (req, res) => {
+  Areas.findByIdAndRemove(req.params._id, function(err) {
+    if (err){
+      res.status(500).json(err);
+      throw err;
+    }
+    console.log('Area deleted');
+    res.status(202).json({success: true});
+
+  });
+});
+
+
+app.get('/api/v1/areas', (req, res) => {
+  Areas.find({}, function(err, areas) {
+    if (err){
+      res.status(500).json(err);
+      throw err;
+    }
+    res.status(202).json(areas);
+  });
+  // How we are using JSON the response use the function json
+
+});
 };

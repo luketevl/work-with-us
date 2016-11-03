@@ -25,16 +25,16 @@ nodejs server [PORT=]
 
 ## Notations
 - Delete verb
-  - http://localhost:595/api/v1/todo/paramID
+  - http://localhost:3002/api/v1/candidates/paramID
 - Get verb
-  - http://localhost:595/api/v1/todo/
+  - http://localhost:3002/api/v1/candidates/
 - Post verb
-  - http://localhost:595/api/v1/todo/
+  - http://localhost:3002/api/v1/candidates/
   - inputs
       - _name_: **String**
       - _checked_: **boolean**
 - Put verb
-  - http://localhost:595/api/v1/todo/
+  - http://localhost:3002/api/v1/candidates/
   - inputs
       - _name_: **String**
       - _checked_: **boolean**

@@ -9,7 +9,7 @@ module.exports = () => {
 
   let areasSchema = new Schema({
     name:  String,
-    created:  Date,
+    created: { type: Date, default: Date.now },
     updated: { type: Date, default: Date.now }
   });
   let Areas = mongoose.model('Areas', areasSchema);
