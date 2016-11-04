@@ -10,10 +10,11 @@ const multipartyMiddleware  = multiparty();
 // ROUTE for API
 module.exports = (app) => {
 
+  const routesCtrl        = require('../controllers/routesController')(app);
+
   app.get('/uploads/files/:_id/:name', function(req, res) {
     res.sendFile(path.join(`${__dirname}/../../uploads/files/${req.params._id}/${req.params.name}`));
 });
-
 
   // ROUTE for API
   app.get('/api/v1/candidates', (req, res) => {
@@ -157,7 +158,7 @@ app.get('/api/v1/areas', (req, res) => {
     }
     res.status(202).json(areas);
   });
-  // How we are using JSON the response use the function json
+  // How we are using JSON  the response use the function json
 
 });
 };

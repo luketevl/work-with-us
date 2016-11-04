@@ -30,5 +30,7 @@ const route = require('./js/routes/route.js')(app);
 
 app.set('port', process.env.PORT | 3002);
 
+app.set('DOMAIN_VALID', 'tagplus.com.br');
+
 // Creating and Listening the SERVER
 app.listen(app.get('port'), () => console.log('Listen http://localhost:'+app.get('port')));
